@@ -71,6 +71,7 @@ ListView.builder(
   controller: ScrollController(
     initialScrollOffset: 200.0 // 初始滚动到的位置
   ),
+  physics: const AlwaysScrollableScrollPhysics(), // 当内容不够一页时也允许滚动
   cacheExtent: 50.0, // 缓冲区的高度
 )
 ```
