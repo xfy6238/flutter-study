@@ -40,7 +40,14 @@ new AppBar(
   titleSpacing: 20.0,
   primary: true, // 是否被statusbar遮挡
   toolbarOpacity: 0.3,
-  bottom: new TabBar(tabs: null),
+  bottom: PreferredSize(
+    preferredSize: const Size.fromHeight(36.0), // AppBar的高度
+    child: Container(
+      alignment: Alignment.center,
+      height: 48.0,
+      child: Text("hahh"),
+    ), // bottom 底部延伸
+  ),
   bottomOpacity: 0.3,
   textTheme: TextTheme(),
   actions: <Widget>[
