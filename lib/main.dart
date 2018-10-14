@@ -4,6 +4,12 @@
 
 import 'package:flutter/material.dart';
 
+// Future<void> getData() async {
+//  http.Response response = await http.get('http://192.168.1.105:9100/getData');
+//  Test test = new Test.fromJson(jsonDecode(response.body));
+//  print(test.info.age);
+// }
+
 class TabbedAppBarSample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
