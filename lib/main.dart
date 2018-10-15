@@ -3,50 +3,56 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
-// Future<void> getData() async {
-//  http.Response response = await http.get('http://192.168.1.105:9100/getData');
-//  Test test = new Test.fromJson(jsonDecode(response.body));
-//  print(test.info.age);
-// }
+import 'dto/test.dart';
 
 class TabbedAppBarSample extends StatelessWidget {
+
+  final String title = 'app';
+
+  Future<void> getData() async {
+    http.Response response = await http.get('http://10.10.1.26:9100/getData');
+    Test test = new Test.fromJson(jsonDecode(response.body));
+    print(test.records[0].id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
         length: choices.length,
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Tabbed AppBar'),
-            bottom: TabBar(
-              isScrollable: true,
-              indicator: new ShapeDecoration(shape: new Border.all(color: Colors.redAccent, width: 1.0)),
-              indicatorSize: TabBarIndicatorSize.tab,
-              tabs: choices.map((Choice choice) {
-                return Tab(
-                  text: choice.title,
-                  icon: Icon(choice.icon),
-                );
-              }).toList(),
+            appBar: AppBar(
+              title: const Text('Tabbed AppBar'),
+              bottom: TabBar(
+                isScrollable: false,
+                indicator: new ShapeDecoration(
+                    shape: new Border.all(color: Colors.redAccent, width: 1.0)),
+                indicatorSize: TabBarIndicatorSize.tab,
+                tabs: choices.map((Choice choice) {
+                  return Tab(
+                    text: choice.title,
+                    icon: Icon(choice.icon),
+                  );
+                }).toList(),
+              ),
             ),
-          ),
-          body: TabBarView(
-            children: choices.map((Choice choice) {
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ChoiceCard(choice: choice),
-              );
-            }).toList(),
-          ),
-        ),
+            body: Center(
+              child: IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: getData,
+              ),
+            )),
       ),
     );
   }
 }
 
 class Choice {
-  const Choice({ this.title, this.icon });
+  const Choice({this.title, this.icon});
   final String title;
   final IconData icon;
 }
@@ -61,7 +67,7 @@ const List<Choice> choices = <Choice>[
 ];
 
 class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({ Key key, this.choice }) : super(key: key);
+  const ChoiceCard({Key key, this.choice}) : super(key: key);
 
   final Choice choice;
 

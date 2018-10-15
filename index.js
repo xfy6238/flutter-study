@@ -7,7 +7,17 @@ const server = require("http")
           name: "fanzk",
           info: {
             age: 30
-          }
+          },
+          records: [
+            {
+              id: 'akjdfla',
+              time: '2018-10-15'
+            },
+            {
+              id: 'fgafsdaf',
+              time: '2018-10-12'
+            }
+          ]
         })
       );
     }
