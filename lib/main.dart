@@ -4,8 +4,6 @@
 
 import 'package:flutter/material.dart';
 
-import 'services/exampl.dart' show postData hide getData;
-
 void main() {
   runApp(App());
 }
@@ -17,6 +15,28 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
   String title = "title";
+
+  ScrollController controller = new ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.addListener(() {
+      if (controller.offset == controller.position.maxScrollExtent) {
+        print("出发上拉加载");
+      }
+      if (controller.offset == controller.position.minScrollExtent) {
+        print("出发下拉加载");
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -27,22 +47,24 @@ class AppState extends State<App> {
           appBar: AppBar(
             title: Text(this.title),
           ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.thumb_up),
+            onPressed: () {
+              controller.animateTo(0.0,
+                  duration: Duration(milliseconds: 300), curve: Curves.easeIn);
+            },
+          ),
           body: new Builder(
             builder: (BuildContext context) {
-              return Center(
-                child: Container(
-                  child: IconButton(
-                    icon: Icon(Icons.open_in_browser),
-                    onPressed: () {
-                      // getData(context).then((Test test) {
-                      //   setState(() {
-                      //     title = test.records[0].id;
-                      //   });
-                      // });
-                      postData(context);
-                    },
-                  ),
-                ),
+              return ListView.builder(
+                itemCount: 20,
+                itemBuilder: (BuildContext context, int i) {
+                  return ListTile(
+                    title: Text("index $i"),
+                  );
+                },
+                physics: const AlwaysScrollableScrollPhysics(),
+                controller: controller,
               );
             },
           )),
