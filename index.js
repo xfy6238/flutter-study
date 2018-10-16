@@ -1,7 +1,7 @@
 const server = require("http")
   .createServer((req, res) => {
     console.log(req.url);
-    if (req.url === "/getData") {
+    if (req.url === "/getData" && req.method === "GET") {
       setTimeout(() => {
         res.end(
           JSON.stringify({
@@ -22,6 +22,21 @@ const server = require("http")
           })
         );
       }, 2000);
+    } else if (req.url === "/post" && req.method === "POST") {
+      let data = "";
+      req.on("data", chunk => {
+        data += chunk;
+      });
+      req.on("end", () => {
+        setTimeout(() => {
+          res.end(
+            JSON.stringify({
+              code: "200",
+              data: null
+            })
+          );
+        }, 2000);
+      });
     }
   })
   .listen(9100, () => {
