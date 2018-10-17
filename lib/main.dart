@@ -3,8 +3,11 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'components/Filter.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
+  debugPaintSizeEnabled = false;
   runApp(App());
 }
 
@@ -39,7 +42,6 @@ class AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       title: this.title,
       theme: ThemeData(primaryColor: Colors.blue),
@@ -54,19 +56,25 @@ class AppState extends State<App> {
                   duration: Duration(milliseconds: 300), curve: Curves.easeIn);
             },
           ),
-          body: new Builder(
-            builder: (BuildContext context) {
-              return ListView.builder(
-                itemCount: 20,
-                itemBuilder: (BuildContext context, int i) {
-                  return ListTile(
-                    title: Text("index $i"),
+          body: Stack(
+            children: <Widget>[
+              Builder(
+                builder: (BuildContext context) {
+                  return ListView.builder(
+                    itemCount: 20,
+                    itemBuilder: (BuildContext context, int i) {
+                      return ListTile(
+                        title: Text("index $i"),
+                      );
+                    },
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    controller: controller,
+                    padding: EdgeInsets.only(top: 50.0),
                   );
                 },
-                physics: const AlwaysScrollableScrollPhysics(),
-                controller: controller,
-              );
-            },
+              ),
+              Filter(),
+            ],
           )),
     );
   }
