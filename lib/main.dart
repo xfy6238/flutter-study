@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          model.setTitle(Random().nextInt(100).toString());
+          model.getData();
         },
       ),
     );

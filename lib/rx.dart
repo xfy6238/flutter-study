@@ -1,17 +1,22 @@
 import 'package:rxdart/rxdart.dart';
+import 'services/exampl.dart' show getData2;
 
 class Model {
-
   var _title = new PublishSubject<String>();
 
-  Stream get title => _title.stream;
+  get title => _title.stream;
 
-  void setTitle(String value) {
+  setTitle(String value) {
     _title.add(value);
   }
 
+  getData() {
+    getData2().then((value) {
+      setTitle(value);
+    });
+  }
 
-  void close() {
+  close() {
     _title.close();
   }
 }
