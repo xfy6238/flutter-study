@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/utils/storage.dart';
 import '../rx.dart';
 
 class About extends StatelessWidget {
@@ -8,9 +9,12 @@ class About extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("about"),
-        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {
-          model.close();
-        },),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            model.close();
+          },
+        ),
       ),
       body: Center(
         child: StreamBuilder<String>(
@@ -26,7 +30,10 @@ class About extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).pop();
+          Storage.getItem("key").then((value) {
+            print(value);
+            Navigator.of(context).pop();
+          });
         },
       ),
     );

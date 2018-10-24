@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../rx.dart';
+import '../utils/storage.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -31,7 +32,9 @@ class Home extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).pushNamed("/about");
+          Storage.setItem("key", "value").then((a) {
+            Navigator.of(context).pushNamed("/about");
+          });
         },
       ),
     );
