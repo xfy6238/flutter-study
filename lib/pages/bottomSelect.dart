@@ -17,7 +17,7 @@ class BottomSelect extends StatelessWidget {
           return Container(
               width: width,
               height: 300.0,
-              decoration: BoxDecoration(color: Colors.greenAccent),
+              decoration: BoxDecoration(color: Colors.white),
               child: Column(
                 children: <Widget>[
                   Row(
@@ -92,6 +92,7 @@ class _YearMonth extends StatelessWidget {
 class _Weeks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
     final List<String> weeks = [
       "一",
       "二",
@@ -106,7 +107,13 @@ class _Weeks extends StatelessWidget {
         children: weeks.map((item) {
           return Column(
             children: <Widget>[
-              Text(item),
+              SizedBox(
+                width: width / 7,
+                height: 40.0,
+                child: Center(
+                  child: Text(item),
+                ),
+              )
             ],
           );
         }).toList());
@@ -114,26 +121,68 @@ class _Weeks extends StatelessWidget {
 }
 
 class _Days extends StatelessWidget {
+  List<int> getDays({int year, int month}) {
+    DateTime s = new DateTime(year, month);
+    if (month == 12) {
+      year += 1;
+      month = 0;
+    }
+    DateTime e = new DateTime(year, month + 1);
+    int len = e.difference(s).inDays;
+    List<int> days = [];
+    for (var i = 0; i < len; i++) {
+      days.add(i + 1);
+    }
+    return days;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<String> weeks = [
-      "一",
-      "二",
-      "三",
-      "四",
-      "五",
-      "六",
-      "日",
-    ];
-    // DateTime dateTime = new DateTime(2018, 11);
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: weeks.map((item) {
-          return Column(
-            children: <Widget>[
-              Text(item),
-            ],
-          );
-        }).toList());
+    Color white = Colors.white;
+    Color blue = Colors.blueAccent;
+    List<int> range = [];
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return SizedBox(
+          height: 160.0,
+          child: new GridView.count(
+            crossAxisCount: 7,
+            childAspectRatio: 2.0,
+            children: getDays(year: 2018, month: 10).map((item) {
+              Color color = white;
+              if (range.length == 2) {
+                color = item >= range[0] && item <= range[1] ? blue : white;
+              } else if (range.length == 1) {
+                color = item == range[0] ? blue : white;
+              }
+
+              return Center(
+                child: InkWell(
+                  onTap: () {
+                    if (range.length == 2) {
+                      range.clear();
+                    } else {
+                      range.add(item);
+                      range.sort();
+                    }
+                    setState(() {});
+                  },
+                  child: Container(
+                    height: 24.0,
+                    width: 24.0,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                        color: color),
+                    child: Center(
+                      child: Text("$item", style: TextStyle(color: color == blue ? Colors.white : Colors.black),),
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        );
+      },
+    );
   }
 }
