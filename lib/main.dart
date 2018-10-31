@@ -5,7 +5,7 @@ import 'pages/home.dart' show Home;
 import 'pages/about.dart' show About;
 
 void main(List<String> args) {
-  debugPaintSizeEnabled = false;
+  debugPaintSizeEnabled = true;
   runApp(new MaterialApp(
     home: Home(),
     routes: {

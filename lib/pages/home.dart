@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/bottomSelect.dart';
 import '../rx.dart';
-import '../utils/storage.dart';
 
 class Home extends StatelessWidget {
   void getData(data) {
