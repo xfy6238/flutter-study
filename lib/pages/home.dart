@@ -19,6 +19,14 @@ class Home extends StatelessWidget {
             model.close();
           },
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.chevron_right),
+            onPressed: () {
+              Navigator.of(context).pushNamed("/shop");
+            },
+          )
+        ],
       ),
       body: BottomSelect(
         getData: this.getData,
